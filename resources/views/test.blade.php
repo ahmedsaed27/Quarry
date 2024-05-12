@@ -23,12 +23,12 @@
             </div>
             <div class="bill-details">
                 <div class="flex justify-between">
-                    <div>رقم الفاتوره : 12412ف67890</div>
-                    <div>رقم امر التوريد : 456789012312</div>
+                    <div>رقم الفاتوره : {{$record->id}}</div>
+                    <div>رقم امر التوريد : {{$record->supply_order->supply_number}}</div>
                 </div>
                 <div class="flex justify-between">
-                    <div>BILL DATE: 10/Mar/2022</div>
-                    <div>TIME: 14:10</div>
+                    <div>BILL DATE: {{$record->created_at}}</div>
+                    <div>TIME: {{$record->created_at}}</div>
                 </div>
             </div>
             <table class="table">
@@ -62,39 +62,39 @@
                         <td>مقاول الشحن</td>
                         <td>-</td>
 
-                        <td class="text-left">عبعال</td>
+                        <td class="text-left">{{$record->transportation_companies->name}}</td>
                     </tr>
                     <tr>
                         <td>اسم السائق</td>
                         <td>-</td>
-                        <td class="text-left">عبعال</td>
+                        <td class="text-left">{{$record->transport_workers->name}}</td>
                     </tr>
                     <tr>
                         <td>رقم العربيه</td>
                         <td>-</td>
 
-                        <td class="text-left">123-س ر د</td>
+                        <td class="text-left">{{$record->transport_workers->car_number}}</td>
                     </tr>
                     <tr>
                         <td>نوع الحموله</td>
                         <td>-</td>
-                        <td class="text-left">مخصوص</td>
+                        <td class="text-left">{{$record->materials->name}}</td>
                     </tr>
                     <tr>
                         <td>المحجر</td>
                         <td>-</td>
 
-                        <td class="text-left">sghl</td>
+                        <td class="text-left">{{$record->quarrie->name}}</td>
                     </tr>
                     <tr >
                         <td>العهده</td>
                         <td>-</td>
 
-                        <td class="text-left">2500</td>
+                        <td class="text-left">{{$record->opening_amount}}</td>
                     </tr>
                 </tbody>
             </table>
-            <br> رقم البوليصه: 1241241
+            <br> رقم البوليصه: {{$record->reference}}
             <br> موظف : احمد ابراهيم
         </div>
     </div>
