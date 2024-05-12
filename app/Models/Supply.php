@@ -41,11 +41,11 @@ class Supply extends Model
     }
 
     public function transportation_companies(){
-        return $this->belongsTo(transportationCompanies::class , 'transportation_companies_id');
+        return $this->belongsTo(TransportationCompanies::class , 'transportation_companies_id');
     }
 
     public function transport_workers(){
-        return $this->belongsTo(transportWorkers::class , 'transport_workers_id');
+        return $this->belongsTo(TransportWorkers::class , 'transport_workers_id');
     }
 
     public function customers(){
