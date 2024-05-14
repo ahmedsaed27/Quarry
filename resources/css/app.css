@@ -14,6 +14,11 @@
     .fi-sidebar-header {
       display: none !important;
     }
+
+    .fi-sidebar-open{
+        display: none !important;
+    }
+    
     .fi-sidebar-nav {
       display: none !important;
     }
