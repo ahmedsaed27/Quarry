@@ -9,33 +9,33 @@
         padding: 0;
     }
     .fi-topbar {
-      display: none;
+      display: none !important;
     }
     .fi-sidebar-header {
-      display: none;
+      display: none !important;
     }
     .fi-sidebar-nav {
-      display: none;
+      display: none !important;
     }
 
     .fi-header-heading{
-        display: none;
+        display: none !important;
     }
 
     .printDiv{
-        display: none;
+        display: none !important;
     }
 
     section{
-        display: none;
+        display: none !important;
     }
 
     .fi-ta-ctn{
-        display: none;
+        display: none !important;
     }
 
     .invoice{
-        display: block;
+        display: block !important;
     }
 
 
@@ -76,7 +76,6 @@
     border-bottom: none;
     }
 
-    
     .table .total td {
     border-top: 2px dashed #000;
     border-bottom: 2px dashed #000;
