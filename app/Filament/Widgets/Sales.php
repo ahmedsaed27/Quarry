@@ -2,6 +2,8 @@
 
 namespace App\Filament\Widgets;
 
+use App\Models\Supply;
+use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 
 class Sales extends ChartWidget
@@ -10,15 +12,29 @@ class Sales extends ChartWidget
 
     protected static bool $isLazy = false;
 
-
+    private $model = Supply::class;
 
     protected function getData(): array
     {
+         $currentYear = Carbon::now()->year;
+
+         $sales = $this->model::whereYear('date', $currentYear)
+            ->selectRaw('MONTH(date) as month, SUM(total_invoice) as total')
+            ->groupBy('month')
+            ->get()
+            ->keyBy('month');
+
+        $monthlySale = array_fill(1, 12, 0);
+
+        foreach ($sales as $month => $data) {
+            $monthlySale[$month] = $data->total;
+        }
+
         return [
             'datasets' => [
                 [
-                    'label' => 'Blog posts created',
-                    'data' => [0, 10, 5, 2, 21, 32, 45, 74, 65, 45, 77, 89],
+                    'label' => 'فواتير بقيمت',
+                    'data' => array_values($monthlySale),
                 ],
             ],
             'labels' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],

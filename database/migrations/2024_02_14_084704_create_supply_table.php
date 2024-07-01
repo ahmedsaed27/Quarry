@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('supply', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('reference', 32)->unique();
+            $table->date('date');
             $table->foreignId('quarries_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('transportation_companies_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('transport_workers_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();

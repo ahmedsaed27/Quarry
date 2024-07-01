@@ -18,7 +18,7 @@
     .fi-sidebar-open{
         display: none !important;
     }
-    
+
     .fi-sidebar-nav {
       display: none !important;
     }
@@ -31,8 +31,9 @@
         display: none !important;
     }
 
-    section{
+    dl{
         display: none !important;
+
     }
 
     .fi-ta-ctn{

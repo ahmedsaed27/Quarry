@@ -47,6 +47,9 @@ use Filament\Infolists\Infolist;
 use App\Models\SupplyOrder;
 use Illuminate\Database\Eloquent\Model;
 
+use Filament\Forms\Components\DatePicker;
+use Filament\Tables\Actions\ActionGroup;
+
 class SupplyResource extends Resource
 {
     protected static ?string $model = Supply::class;
@@ -97,12 +100,16 @@ class SupplyResource extends Resource
                 ->schema([
 
                     TextInput::make('reference')
+                    ->label('رقم البوليصه')
                     ->default('OR-' . random_int(100000, 999999))
                     ->disabled()
                     ->dehydrated()
                     ->required()
                     ->maxLength(32)
                     ->unique(Supply::class, 'reference', ignoreRecord: true),
+
+                    DatePicker::make('date')->label('تاريخ الفاتوره'),
+
 
                     Select::make('quarries_id')
                     ->label('المحجر')
@@ -258,7 +265,10 @@ class SupplyResource extends Resource
                     ->label('تابع لامر توريد رقم')
                     ->options(function (Get $get){
                         if ($get('customers_id')) {
-                            return SupplyOrder::where('customers_id', $get('customers_id'))->pluck('supply_number', 'id');
+                            return SupplyOrder::
+                            where('customers_id', $get('customers_id'))
+                            ->where('show' , true)
+                            ->pluck('supply_number', 'id');
                         }
                     })
                     ->searchable()
@@ -355,6 +365,8 @@ class SupplyResource extends Resource
             ])
             ->columns([
                 TextColumn::make('id')->label('#')->searchable(),
+                TextColumn::make('user.name')->label('الموظف')->searchable(),
+                TextColumn::make('reference')->label('رقم البوليصه')->searchable(),
                 TextColumn::make('company.name')->label('اسم شركتك')->searchable(),
                 TextColumn::make('quarrie.name')->label('المحجر')->searchable(),
                 TextColumn::make('transportation_companies.name')->label('مقاول النقل')->searchable(),
@@ -378,6 +390,7 @@ class SupplyResource extends Resource
                 ->summarize([
                     Tables\Columns\Summarizers\Sum::make()->money('EGP'),
                 ]),
+                TextColumn::make('date')->label('تاريخ الفاتوره')->dateTime()->toggleable(isToggledHiddenByDefault:true),
                 TextColumn::make('created_at')->label('وقت الانشاء')->dateTime()->toggleable(isToggledHiddenByDefault:true),
                 TextColumn::make('updated_at')->label('وقت التعديل')->dateTime()->toggleable(isToggledHiddenByDefault:true)
 
@@ -432,9 +445,12 @@ class SupplyResource extends Resource
 
             ], layout: FiltersLayout::AboveContent)
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

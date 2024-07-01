@@ -19,15 +19,21 @@ class CreateSupply extends CreateRecord
         return $this->getResource()::getUrl('index');
     }
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['user_id'] = auth()->id();
+
+        return $data;
+    }
 
     protected function afterCreate(): void
     {
         $order = $this->record;
 
         Notification::make()
-            ->title('التوريدات')
+            ->title('التحميل')
             ->icon('heroicon-m-truck')
-            ->body("تم اضافه توريد جديد")
+            ->body("تم اضافه تحميل جديد")
             ->actions([
                 Action::make('View')
                     ->label('ذهاب')

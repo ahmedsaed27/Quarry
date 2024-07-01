@@ -11,12 +11,21 @@ class SupplyOrder extends Model
 
     protected $table = 'supply_orders';
 
-    protected $fillable = ['customers_id' , 'supply_number' , 'ton' , 'show' , 'status' , 'comment'];
+    protected $fillable = ['user_id' , 'customers_id' , 'supply_number' , 'ton' , 'show' , 'status' , 'comment'];
 
     public $timestamps = true;
 
+    public function user(){
+        return $this->belongsTo(User::class , 'user_id');
+    }
+
     public function invoices(){
         return $this->hasMany(Supply::class , 'supply_orders_id');
+    }
+
+    public function getTotalTonsAttribute()
+    {
+        return $this->invoices()->sum('ton');
     }
 
     public function customer(){

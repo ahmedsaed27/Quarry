@@ -11,7 +11,6 @@
     <div class="hidden invoice">
         <div class="bill">
             <div class="brand">
-                {{-- <strong> Harrison Glenn </strong> --}}
                 <strong> {{$record->company->name}} </strong>
             </div>
             <div class="address">
@@ -95,7 +94,7 @@
                 </tbody>
             </table>
             <br> رقم البوليصه: {{$record->reference}}
-            <br> موظف : احمد ابراهيم
+            <br> موظف : {{$record->user->name}}
         </div>
     </div>
 

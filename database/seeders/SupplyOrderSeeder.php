@@ -14,9 +14,10 @@ class SupplyOrderSeeder extends Seeder
     public function run(): void
     {
         SupplyOrder::create([
-            'customers_id' => 1,
+            'user_id' => 1,
             'supply_number' => 12341516,
             'ton' => 300,
+            'date' => date('Y-m-d'),
             'customers_id' => 1,
         ]);
     }

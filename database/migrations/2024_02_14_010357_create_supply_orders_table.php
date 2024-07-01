@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('supply_orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('customers_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->biginteger('supply_number');
             $table->integer('ton');
+            $table->date('date');
             $table->boolean('show')->default(true)->comment('true => Visible , false => invisible');
             $table->boolean('status')->default(true)->comment('true => Open invoice , false => Closed invoice');
             $table->longText('comment')->nullable();

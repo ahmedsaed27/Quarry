@@ -13,7 +13,8 @@ class Supply extends Model
     protected $table = 'supply';
 
     protected $fillable = [
-        'reference'
+        'user_id'
+        ,'reference'
         , 'quarries_id'
         , 'transportation_companies_id'
         , 'transport_workers_id','customers_id'
@@ -36,6 +37,10 @@ class Supply extends Model
         'status' => Order::class,
     ];
 
+    public function user(){
+        return $this->belongsTo(User::class , 'user_id');
+    }
+    
     public function quarrie(){
         return $this->belongsTo(Quarries::class , 'quarries_id');
     }

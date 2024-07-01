@@ -3,10 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SupplyOrderResource\Pages;
-use App\Filament\Resources\SupplyOrderResource\RelationManagers;
 use App\Models\Customers;
 use App\Models\SupplyOrder;
-use Filament\Forms;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -16,8 +14,12 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\ToggleButtons;
+use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Actions\ActionGroup;
+
+
 
 class SupplyOrderResource extends Resource
 {
@@ -40,11 +42,25 @@ class SupplyOrderResource extends Resource
                     ->label('اسم الشركه')
                     ->options(Customers::all()->pluck('name' , 'id'))
                     ->searchable()
-                    ->required()
-                    ->columnSpanFull(),
+                    ->required(),
+
+                    DatePicker::make('date')->label('تاريخ امر التوريد'),
+
 
                     TextInput::make('supply_number')->label('رقم امر التوريد')->required()->numeric(),
                     TextInput::make('ton')->label('عدد الاطنان')->required()->numeric(),
+
+                    ToggleButtons::make('show')
+                    ->label('هل تريد اظهار امر التوريد لموظف التحميل؟')
+                    ->boolean()
+                    ->default(true)
+                    ->grouped(),
+
+                    ToggleButtons::make('status')
+                    ->label('هل تم تحصيل كافه المستحقات الماليه؟')
+                    ->boolean()
+                    ->default(true)
+                    ->grouped(),
 
                     MarkdownEditor::make('comment')->label('تفاصيل اخري')->columnSpanFull(),
 
@@ -57,19 +73,25 @@ class SupplyOrderResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('user.name')->label('الموظف')->badge()->searchable(),
                 TextColumn::make('customer.name')->label('اسم الشركه')->searchable(),
                 TextColumn::make('supply_number')->label('رقم امر التوريد')->searchable(),
                 TextColumn::make('ton')->label('عدد الاطنان'),
+                TextColumn::make('total_tons')->label('عدد الاطنان المسلمه')->badge(),
+                ToggleColumn::make('show')->label('اظهار الفاتوره لموظف التحميل'),
+                ToggleColumn::make('status')->label('هل تم تحصيل كافه المستحقات الماليه'),
                 TextColumn::make('comment')->label('تفاصيل اخري')->wrap()->words(20)->toggleable(isToggledHiddenByDefault:true),
-                TextColumn::make('created_at')->label('وقت الانشاء')->dateTime(),
-                TextColumn::make('updated_at')->label('وقت التعديل')->dateTime()
+                TextColumn::make('date')->label('التاريخ')->date(),
             ])
             ->filters([
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make(),
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
