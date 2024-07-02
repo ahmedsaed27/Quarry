@@ -18,7 +18,7 @@ class Supply extends Model
         , 'quarries_id'
         , 'transportation_companies_id'
         , 'transport_workers_id','customers_id'
-        , 'Company_id'
+        , 'companies_id'
         , 'supply_orders_id'
         , 'materials_id'
         , 'ton'
@@ -40,7 +40,7 @@ class Supply extends Model
     public function user(){
         return $this->belongsTo(User::class , 'user_id');
     }
-    
+
     public function quarrie(){
         return $this->belongsTo(Quarries::class , 'quarries_id');
     }
@@ -59,7 +59,7 @@ class Supply extends Model
 
 
     public function company(){
-        return $this->belongsTo(Companies::class , 'Company_id');
+        return $this->belongsTo(Companies::class , 'companies_id');
     }
 
     public function materials(){

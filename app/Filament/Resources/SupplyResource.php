@@ -274,7 +274,7 @@ class SupplyResource extends Resource
                     ->searchable()
                     ->required(),
 
-                    Select::make('Company_id')
+                    Select::make('companies_id')
                     ->label('باسم شركه')
                     ->options(Companies::all()->pluck('name', 'id'))
                     ->searchable()
