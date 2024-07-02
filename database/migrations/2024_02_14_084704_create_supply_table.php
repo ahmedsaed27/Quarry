@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('cost_of_transporting_a_ton');
             $table->integer('opening_amount');
             $table->longText('branch');
-            $table->foreignId('Company_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('companies_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->integer('ton')->nullable();
             $table->integer('price_per_ton')->nullable();
             $table->integer('profit')->nullable();
