@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\QuarriesResource\RelationManagers;
 
 use App\Models\Materials;
+use Closure;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -28,7 +29,13 @@ class MaterialsRelationManager extends RelationManager
         return $form
             ->schema([
                 TextInput::make('name')->label('اسم الخامه')->required(),
-                TextInput::make('price')->label('السعر')->required()->numeric(),
+                TextInput::make('price')->label('السعر')->required()->numeric()->rules([
+                    fn (): Closure => function (string $attribute, $value, Closure $fail) {
+                        if ($value == 0) {
+                            $fail(':attribute يجب ان يكون اكبر من 0');
+                        }
+                    },
+                ]),
             ]);
     }
 
@@ -47,7 +54,13 @@ class MaterialsRelationManager extends RelationManager
                 Tables\Actions\AttachAction::make()
                 ->form(fn (AttachAction $action): array => [
                     $action->getRecordSelect(),
-                    TextInput::make('price')->label('السعر')->required()->numeric(),
+                    TextInput::make('price')->label('السعر')->required()->numeric()->rules([
+                        fn (): Closure => function (string $attribute, $value, Closure $fail) {
+                            if ($value == 0) {
+                                $fail(':attribute يجب ان يكون اكبر من 0');
+                            }
+                        },
+                    ]),
                 ])->label('ارفاق خامه للمحجر'),
                 Tables\Actions\CreateAction::make()
                 ->label('انشاء خامه و ارفاقها الي المحجر'),

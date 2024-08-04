@@ -33,7 +33,6 @@ class ListSupplies extends ListRecords
             null => Tab::make('All')->label('الكل'),
             'مفوتره' => Tab::make()->query(fn ($query) => $query->where('status', 'Invoiced')),
             'تم التحصيل' => Tab::make()->query(fn ($query) => $query->where('status', 'Collected')),
-            'تحصيل جزئي' => Tab::make()->query(fn ($query) => $query->where('status', 'PartialCollection')),
             'جاري الشحن' => Tab::make()->query(fn ($query) => $query->where('status', 'shipped')),
             'تم الاستلام' => Tab::make()->query(fn ($query) => $query->where('status', 'delivered')),
             'تم الالغاء' => Tab::make()->query(fn ($query) => $query->where('status', 'cancelled')),

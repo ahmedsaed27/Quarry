@@ -49,6 +49,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Actions\ActionGroup;
+use Closure;
 
 class SupplyResource extends Resource
 {
@@ -101,14 +102,10 @@ class SupplyResource extends Resource
 
                     TextInput::make('reference')
                     ->label('رقم البوليصه')
-                    ->default('OR-' . random_int(100000, 999999))
-                    ->disabled()
-                    ->dehydrated()
                     ->required()
-                    ->maxLength(32)
                     ->unique(Supply::class, 'reference', ignoreRecord: true),
 
-                    DatePicker::make('date')->label('تاريخ الفاتوره'),
+                    DatePicker::make('date')->label('تاريخ الفاتوره')->required(),
 
 
                     Select::make('quarries_id')
@@ -295,7 +292,13 @@ class SupplyResource extends Resource
 
                 Section::make('الحسابات')
                     ->schema([
-                        TextInput::make('profit')->label('هامش الربح')
+                        TextInput::make('profit')->label('هامش الربح')->rules([
+                            fn (): Closure => function (string $attribute, $value, Closure $fail) {
+                                if ($value == 0) {
+                                    $fail(':attribute يجب ان يكون اكبر من 0');
+                                }
+                            },
+                        ])
 
                         ->live(onBlur: true)
                         ->afterStateUpdated(function (Set $set, Get $get , ?string $state){
@@ -326,6 +329,13 @@ class SupplyResource extends Resource
                         ->required(),
 
                         TextInput::make('ton')->label('الوزن')
+                        ->rules([
+                            fn (): Closure => function (string $attribute, $value, Closure $fail) {
+                                if ($value == 0) {
+                                    $fail(':attribute يجب ان يكون اكبر من 0');
+                                }
+                            },
+                        ])
                         ->live(onBlur: true)
                         ->afterStateUpdated(function (Set $set, Get $get , ?string $state) {
                             // $profit =  Companies::where('id' , $get('Company_id'))->first();

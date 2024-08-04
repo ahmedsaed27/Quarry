@@ -150,8 +150,9 @@ class ExpensesResource extends Resource
                         'other' => 'اخري',
                     };
                 })->badge(),
+                TextColumn::make('supply.reference')->label('رقم الفاتوره')->badge(),
                 TextColumn::make('date')->label('تاريخ المصروف')->badge(),
-                TextColumn::make('user.name')->searchable()->label('كاتب المصروف')->badge(),
+                TextColumn::make('user.name')->searchable()->label('الموظف')->badge(),
                 TextColumn::make('supply.transportation_companies.name')->searchable()->label('مقاول الشحن')->badge(),
                 TextColumn::make('supply.cost_of_transporting_a_ton')->label('سعر نقل الطن')->badge()->toggleable(isToggledHiddenByDefault:true),
                 TextColumn::make('supply.ton')->label('عدد الاطنان')->badge()->toggleable(isToggledHiddenByDefault:true),
